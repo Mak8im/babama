@@ -1,27 +1,61 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Volume Shader BM</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Тест FPS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        #fps {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>Volume Shader BM</h1>
-    </header>
+    <h1>Тест производительности</h1>
+    <p>Этот сайт будет "лагать" для проверки FPS (кадры в секунду).</p>
+    <div id="fps"></div>
 
-    <main>
-        <section class="shader-container">
-            <canvas id="shaderCanvas"></canvas>
-            <p>Shader Visualization</p>
-        </section>
-    </main>
+    <script>
+        let fpsDisplay = document.getElementById('fps');
+        let lastTime = 0;
+        let frameCount = 0;
+        let fps = 0;
 
-    <footer>
-        <p>&copy; 2025 Volume Shader BM</p>
-    </footer>
+        // Тяжелая операция, которая будет вызывать задержки
+        function heavyTask() {
+            let start = Date.now();
+            let end = start + 1000000;
+            while (Date.now() < end) {} // Интенсивный цикл
+        }
 
-    <script src="script.js"></script>
+        // Функция для расчета FPS
+        function calculateFPS(timestamp) {
+            frameCount++;
+            if (timestamp - lastTime >= 1000) {
+                fps = frameCount;
+                frameCount = 0;
+                lastTime = timestamp;
+                fpsDisplay.textContent = `FPS: ${fps}`;
+            }
+            requestAnimationFrame(calculateFPS);
+        }
+
+        // Интенсивная нагрузка и расчет FPS
+        function update() {
+            heavyTask(); // Запуск тяжелой задачи
+            requestAnimationFrame(update); // Плавный цикл обновления
+        }
+
+        // Начало отслеживания FPS
+        requestAnimationFrame(calculateFPS);
+        update(); // Старт нагрузки
+    </script>
 </body>
 </html>

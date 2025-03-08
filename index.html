@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лагающий сайт</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+            background: url('background-image.jpg') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            text-align: center;
+            color: white;
+        }
+        audio {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <audio autoplay loop>
+        <source src="sound.mp3" type="audio/mp3">
+    </audio>
+
+    <div class="container">
+        <h1>Кликни в любом месте!</h1>
+    </div>
+
+    <script>
+        // Включение полноэкранного режима
+        function enterFullScreen() {
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen();
+            } else if (document.documentElement.mozRequestFullScreen) {
+                document.documentElement.mozRequestFullScreen();
+            } else if (document.documentElement.webkitRequestFullscreen) {
+                document.documentElement.webkitRequestFullscreen();
+            } else if (document.documentElement.msRequestFullscreen) {
+                document.documentElement.msRequestFullscreen();
+            }
+        }
+
+        // Функция для "лагающего" эффекта
+        function lagEffect() {
+            const body = document.body;
+            body.style.transition = 'transform 0.2s ease-out';
+            body.style.transform = 'scale(1.1)';
+
+            setTimeout(() => {
+                body.style.transform = 'scale(1)';
+            }, 200);
+        }
+
+        // Запуск полноэкранного режима сразу при загрузке страницы
+        window.onload = function() {
+            enterFullScreen();
+        };
+
+        // Обработчик клика для эффекта
+        document.body.addEventListener('click', function() {
+            lagEffect();
+        });
+    </script>
+</body>
+</html>

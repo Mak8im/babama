@@ -2,39 +2,41 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Абсолютный Лагер</title>
+    <title>Лагозавр Рекс</title>
     <style>
         body { margin: 0; overflow: hidden; background: black; }
-        .lagBeast { 
+        .lagDemon { 
             position: absolute; 
-            width: 10px; 
-            height: 10px; 
+            width: 5px; 
+            height: 5px; 
             background: white; 
-            animation: insanity 0.001s infinite; 
+            animation: hellspin 0.0005s infinite; 
         }
-        @keyframes insanity {
+        @keyframes hellspin {
             0% { left: 0; top: 0; transform: scale(1) rotate(0deg); }
-            25% { left: 95%; top: 25%; transform: scale(2) rotate(360deg); }
-            50% { left: 50%; top: 95%; transform: scale(3) rotate(720deg); }
-            75% { left: 25%; top: 50%; transform: scale(2) rotate(1080deg); }
-            100% { left: 0; top: 0; transform: scale(1) rotate(1440deg); }
+            20% { left: 99%; top: 33%; transform: scale(5) rotate(720deg); }
+            40% { left: 66%; top: 99%; transform: scale(10) rotate(1440deg); }
+            60% { left: 33%; top: 66%; transform: scale(5) rotate(2160deg); }
+            80% { left: 0; top: 33%; transform: scale(2) rotate(2880deg); }
+            100% { left: 0; top: 0; transform: scale(1) rotate(3600deg); }
         }
     </style>
 </head>
 <body>
-    <h1 style="color: white;">Убийца FPS: <span id="fps">0</span></h1>
-    <script src="lagmaster.js"></script>
+    <h1 style="color: white;">FPS Апокалипсис: <span id="fps">0</span></h1>
+    <script src="lagzilla.js"></script>
     <script>
         let lastTime = performance.now();
         let frameCount = 0;
         let fpsDisplay = document.getElementById("fps");
 
-        // 10 тысяч анимированных частиц
-        for (let i = 0; i < 10000; i++) {
+        // 25 тысяч анимированных частиц
+        for (let i = 0; i < 25000; i++) {
             let div = document.createElement("div");
-            div.className = "lagBeast";
+            div.className = "lagDemon";
             div.style.background = `hsl(${i % 360}, 100%, 50%)`;
-            div.style.animationDuration = `${0.001 + i * 0.00005}s`;
+            div.style.animationDuration = `${0.0005 + i * 0.00002}s`;
+            div.style.zIndex = Math.floor(Math.random() * 100);
             document.body.appendChild(div);
         }
 

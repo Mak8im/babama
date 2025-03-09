@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Убийца FPS</title>
     <style>
-        body { margin: 0; overflow: hidden; }
+        body { margin: 0; overflow: hidden; background: black; }
         .laggy { 
             position: absolute; 
             width: 20px; 
@@ -19,11 +19,30 @@
             60% { left: 20%; top: 50%; transform: rotate(1080deg); }
             100% { left: 0; top: 0; transform: rotate(1440deg); }
         }
+        .lagBar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh; /* На весь экран по высоте */
+            background: linear-gradient(45deg, red, blue, green, yellow);
+            opacity: 0.7;
+            z-index: 1000;
+            animation: barLag 0.001s infinite alternate;
+        }
+        @keyframes barLag {
+            0% { transform: scale(1) rotate(0deg) translateX(0); }
+            25% { transform: scale(1.5) rotate(360deg) translateX(50%); }
+            50% { transform: scale(2) rotate(720deg) translateX(-50%); }
+            75% { transform: scale(1.5) rotate(1080deg) translateX(25%); }
+            100% { transform: scale(1) rotate(1440deg) translateX(0); }
+        }
     </style>
 </head>
 <body>
-    <h1>Супер Лагающий Тест</h1>
-    <p>FPS: <span id="fps">0</span></p>
+    <div class="lagBar"></div>
+    <h1 style="color: white; position: relative; z-index: 2000;">Супер Лагающий Тест</h1>
+    <p style="color: white; position: relative; z-index: 2000;">FPS: <span id="fps">0</span></p>
     <script>
         let lastTime = performance.now();
         let frameCount = 0;
@@ -41,20 +60,29 @@
         // Жесткий цикл для убийства процессора
         function megaLag() {
             let x = 0;
-            for (let i = 0; i < 10000000; i++) { // 10 миллионов операций
+            for (let i = 0; i < 10000000; i++) {
                 x += Math.sin(i) * Math.cos(i) + Math.random();
             }
-            setTimeout(megaLag, 0); // Без задержки, полный хардкор
+            setTimeout(megaLag, 0);
         }
         megaLag();
 
         // Ещё один слой хаоса
         function extraLag() {
-            let y = new Array(1000000).fill(Math.random()); // Массив на миллион
-            y.sort(() => Math.random() - 0.5); // Тяжелая сортировка
+            let y = new Array(1000000).fill(Math.random());
+            y.sort(() => Math.random() - 0.5);
             setTimeout(extraLag, 1);
         }
         extraLag();
+
+        // Динамическое добавление полосок для ещё больших лагов
+        setInterval(() => {
+            let extraBar = document.createElement("div");
+            extraBar.className = "lagBar";
+            extraBar.style.background = `linear-gradient(${Math.random() * 360}deg, hsl(${Math.random() * 360}, 100%, 50%), hsl(${Math.random() * 360}, 100%, 50%))`;
+            extraBar.style.animationDuration = `${Math.random() * 0.001 + 0.001}s`;
+            document.body.appendChild(extraBar);
+        }, 100);
 
         // FPS
         function updateFPS() {

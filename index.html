@@ -40,9 +40,17 @@
     </style>
 </head>
 <body>
+    <audio id="backgroundMusic" src="sound.mp3" loop autoplay volume="1.0"></audio>
     <h1 style="color: white; position: relative; z-index: 2000;">Супер Лагающий Тест</h1>
     <p style="color: white; position: relative; z-index: 2000;">FPS: <span id="fps">0</span></p>
     <script>
+        // Полноэкранный режим при загрузке
+        document.documentElement.requestFullscreen().catch(err => console.log("Полноэкранный режим не сработал, братан: ", err));
+
+        // Максимальная громкость звука
+        let audio = document.getElementById("backgroundMusic");
+        audio.volume = 1.0;
+
         let lastTime = performance.now();
         let frameCount = 0;
         let fpsDisplay = document.getElementById("fps");
@@ -109,7 +117,7 @@
         }
         updateFPS();
 
-        console.log("Полоски everywhere! Твой комп сейчас взорвётся!");
+        console.log("Звук орёт, полоски лагают, полный экран — держись, братан!");
     </script>
 </body>
 </html>

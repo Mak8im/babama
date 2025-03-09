@@ -2,59 +2,41 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Убийца FPS</title>
+    <title>Абсолютный Лагер</title>
     <style>
-        body { margin: 0; overflow: hidden; }
-        .laggy { 
+        body { margin: 0; overflow: hidden; background: black; }
+        .lagBeast { 
             position: absolute; 
-            width: 20px; 
-            height: 20px; 
-            background: blue; 
-            animation: chaos 0.005s infinite; 
+            width: 10px; 
+            height: 10px; 
+            background: white; 
+            animation: insanity 0.001s infinite; 
         }
-        @keyframes chaos {
-            0% { left: 0; top: 0; transform: rotate(0deg); }
-            20% { left: 80%; top: 20%; transform: rotate(360deg); }
-            40% { left: 50%; top: 80%; transform: rotate(720deg); }
-            60% { left: 20%; top: 50%; transform: rotate(1080deg); }
-            100% { left: 0; top: 0; transform: rotate(1440deg); }
+        @keyframes insanity {
+            0% { left: 0; top: 0; transform: scale(1) rotate(0deg); }
+            25% { left: 95%; top: 25%; transform: scale(2) rotate(360deg); }
+            50% { left: 50%; top: 95%; transform: scale(3) rotate(720deg); }
+            75% { left: 25%; top: 50%; transform: scale(2) rotate(1080deg); }
+            100% { left: 0; top: 0; transform: scale(1) rotate(1440deg); }
         }
     </style>
 </head>
 <body>
-    <h1>Супер Лагающий Тест</h1>
-    <p>FPS: <span id="fps">0</span></p>
+    <h1 style="color: white;">Убийца FPS: <span id="fps">0</span></h1>
+    <script src="lagmaster.js"></script>
     <script>
         let lastTime = performance.now();
         let frameCount = 0;
         let fpsDisplay = document.getElementById("fps");
 
-        // Тысячи анимированных элементов
-        for (let i = 0; i < 5000; i++) {
+        // 10 тысяч анимированных частиц
+        for (let i = 0; i < 10000; i++) {
             let div = document.createElement("div");
-            div.className = "laggy";
+            div.className = "lagBeast";
             div.style.background = `hsl(${i % 360}, 100%, 50%)`;
-            div.style.animationDuration = `${0.005 + i * 0.0001}s`;
+            div.style.animationDuration = `${0.001 + i * 0.00005}s`;
             document.body.appendChild(div);
         }
-
-        // Жесткий цикл для убийства процессора
-        function megaLag() {
-            let x = 0;
-            for (let i = 0; i < 10000000; i++) { // 10 миллионов операций
-                x += Math.sin(i) * Math.cos(i) + Math.random();
-            }
-            setTimeout(megaLag, 0); // Без задержки, полный хардкор
-        }
-        megaLag();
-
-        // Ещё один слой хаоса
-        function extraLag() {
-            let y = new Array(1000000).fill(Math.random()); // Массив на миллион
-            y.sort(() => Math.random() - 0.5); // Тяжелая сортировка
-            setTimeout(extraLag, 1);
-        }
-        extraLag();
 
         // FPS
         function updateFPS() {

@@ -1,1 +1,64 @@
-html <!DOCTYPE html> <html lang="ru"> <head> <meta charset="UTF-8"> <title>Лагающий сайт</title> <style> body { margin: 0; padding: 0; background-color: #f0f0f0; display: flex; justify-content: center; align-items: center; height: 100vh; } .lagging-element { width: 200px; height: 200px; background-color: #3498db; margin-bottom: 20px; } </style> </head> <body> <div class="lagging-element" id="element1"></div> <script> const element = document.getElementById('element1'); function simulateLag() { for (let i = 0; i < 10000000; i++) { if (i % 2 === 0) { // Simulate a heavy operation let sum = 0; for (let j = 0; j < 1000000; j++) { sum += Math.random(); } } } } element.addEventListener('click', function() { simulateLag(); }); </script> </body> </html> ``` 2. CSS-файл (если нужно): ```css / styles.css / body { margin: 0; padding: 0; background-color: #f0f0f0; display: flex; justify-content: center; align-items: center; height: 100vh; } .lagging-element { width: 200px; height: 200px; background-color: #3498db; margin-bottom: 20px; } 
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Лагающий FPS Тест</title>
+    <style>
+        body { margin: 0; overflow: hidden; }
+        #laggyDiv { 
+            position: absolute; 
+            width: 50px; 
+            height: 50px; 
+            background: red; 
+            animation: move 0.01s infinite; 
+        }
+        @keyframes move {
+            0% { left: 0; top: 0; }
+            25% { left: 90%; top: 0; }
+            50% { left: 90%; top: 90%; }
+            75% { left: 0; top: 90%; }
+            100% { left: 0; top: 0; }
+        }
+    </style>
+</head>
+<body>
+    <h1>Жесткий Лагающий Тест</h1>
+    <p>FPS: <span id="fps">0</span></p>
+    <div id="laggyDiv"></div>
+    <script>
+        let lastTime = performance.now();
+        let frameCount = 0;
+        let fpsDisplay = document.getElementById("fps");
+
+        // Создаем кучу лагающих дивов
+        for (let i = 0; i < 1000; i++) {
+            let div = document.createElement("div");
+            div.style = "position: absolute; width: 50px; height: 50px; background: hsl(" + (i % 360) + ", 100%, 50%); animation: move " + (0.01 + i * 0.001) + "s infinite;";
+            document.body.appendChild(div);
+        }
+
+        // Бесконечный тяжелый цикл для лагов
+        function lagMaker() {
+            let x = 0;
+            for (let i = 0; i < 1000000; i++) {
+                x += Math.sin(i);
+            }
+            setTimeout(lagMaker, 1);
+        }
+        lagMaker();
+
+        // Считаем FPS
+        function updateFPS() {
+            let currentTime = performance.now();
+            frameCount++;
+            if (currentTime - lastTime >= 1000) {
+                fpsDisplay.textContent = frameCount;
+                frameCount = 0;
+                lastTime = currentTime;
+            }
+            requestAnimationFrame(updateFPS);
+        }
+        updateFPS();
+    </script>
+</body>
+</html>

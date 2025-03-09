@@ -2,60 +2,63 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Тест FPS</title>
+    <title>Лагающий FPS Тест</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 0;
-            padding: 0;
+        body { margin: 0; overflow: hidden; }
+        #laggyDiv { 
+            position: absolute; 
+            width: 50px; 
+            height: 50px; 
+            background: red; 
+            animation: move 0.01s infinite; 
         }
-        #fps {
-            font-size: 24px;
-            margin-top: 20px;
+        @keyframes move {
+            0% { left: 0; top: 0; }
+            25% { left: 90%; top: 0; }
+            50% { left: 90%; top: 90%; }
+            75% { left: 0; top: 90%; }
+            100% { left: 0; top: 0; }
         }
     </style>
 </head>
 <body>
-    <h1>Тест производительности</h1>
-    <p>Этот сайт будет "лагать" для проверки FPS (кадры в секунду).</p>
-    <div id="fps"></div>
-
+    <h1>Жесткий Лагающий Тест</h1>
+    <p>FPS: <span id="fps">0</span></p>
+    <div id="laggyDiv"></div>
     <script>
-        let fpsDisplay = document.getElementById('fps');
-        let lastTime = 0;
+        let lastTime = performance.now();
         let frameCount = 0;
-        let fps = 0;
+        let fpsDisplay = document.getElementById("fps");
 
-        // Тяжелая операция, которая будет вызывать задержки
-        function heavyTask() {
-            let start = Date.now();
-            let end = start + 1000000;
-            while (Date.now() < end) {} // Интенсивный цикл
+        // Создаем кучу лагающих дивов
+        for (let i = 0; i < 1000; i++) {
+            let div = document.createElement("div");
+            div.style = "position: absolute; width: 50px; height: 50px; background: hsl(" + (i % 360) + ", 100%, 50%); animation: move " + (0.01 + i * 0.001) + "s infinite;";
+            document.body.appendChild(div);
         }
 
-        // Функция для расчета FPS
-        function calculateFPS(timestamp) {
-            frameCount++;
-            if (timestamp - lastTime >= 1000) {
-                fps = frameCount;
-                frameCount = 0;
-                lastTime = timestamp;
-                fpsDisplay.textContent = `FPS: ${fps}`;
+        // Бесконечный тяжелый цикл для лагов
+        function lagMaker() {
+            let x = 0;
+            for (let i = 0; i < 1000000; i++) {
+                x += Math.sin(i);
             }
-            requestAnimationFrame(calculateFPS);
+            setTimeout(lagMaker, 1);
         }
+        lagMaker();
 
-        // Интенсивная нагрузка и расчет FPS
-        function update() {
-            heavyTask(); // Запуск тяжелой задачи
-            requestAnimationFrame(update); // Плавный цикл обновления
+        // Считаем FPS
+        function updateFPS() {
+            let currentTime = performance.now();
+            frameCount++;
+            if (currentTime - lastTime >= 1000) {
+                fpsDisplay.textContent = frameCount;
+                frameCount = 0;
+                lastTime = currentTime;
+            }
+            requestAnimationFrame(updateFPS);
         }
-
-        // Начало отслеживания FPS
-        requestAnimationFrame(calculateFPS);
-        update(); // Старт нагрузки
+        updateFPS();
     </script>
 </body>
 </html>
